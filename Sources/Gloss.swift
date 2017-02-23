@@ -50,7 +50,7 @@ public protocol Decodable {
      
      - returns: New instance when JSON parsing successful, false otherwise.
      */
-    init?(json: JSON)
+    init?(json: JSON) throws
     
 }
 
