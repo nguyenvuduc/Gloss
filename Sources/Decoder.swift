@@ -128,12 +128,12 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decode<T: Decodable>(decodableForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> T? {
+    public static func decode<T: Decodable>(decodableForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) throws -> T? {
         return {
             json in
             
             if let subJSON = json.valueForKeyPath(keyPath: key, withDelimiter: keyPathDelimiter) as? JSON {
-                return T(json: subJSON)
+                return try T(json: subJSON)
             }
             
             return nil
@@ -148,7 +148,7 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decode<T: Decodable>(decodableArrayForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [T]? {
+    public static func decode<T: Decodable>(decodableArrayForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) throws -> [T]? {
         return {
             json in
             
@@ -156,7 +156,7 @@ public struct Decoder {
                 var models: [T] = []
                 
                 for subJSON in jsonArray {
-                    guard let model = T(json: subJSON) else {
+                    guard let model = try T(json: subJSON) else {
                         return nil
                     }
                     
@@ -177,7 +177,8 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decode<T:Decodable>(decodableDictionaryForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [String : T]? {
+    public static func decode<T:Decodable>(decodableDictionaryForKey key: String,
+                              keyPathDelimiter: String = GlossKeyPathDelimiter)  -> (JSON) throws -> [String : T]? {
         return {
             json in
             
@@ -185,10 +186,10 @@ public struct Decoder {
                 return nil
             }
             
-            return dictionary.flatMap {
+            return try dictionary.flatMap {
                 (key, value) in
                 
-                guard let decoded = T(json: value) else {
+                guard let decoded = try T(json: value) else {
                     return nil
                 }
                 
@@ -204,7 +205,8 @@ public struct Decoder {
      
      - returns: Value decoded from JSON.
      */
-    public static func decode<T:Decodable>(decodableDictionaryForKey key: String, keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) -> [String : [T]]? {
+    public static func decode<T:Decodable>(decodableDictionaryForKey key: String,
+                              keyPathDelimiter: String = GlossKeyPathDelimiter) -> (JSON) throws -> [String : [T]]? {
         return {
             json in
             
@@ -212,10 +214,10 @@ public struct Decoder {
                 return nil
             }
             
-            return dictionary.flatMap {
+            return try dictionary.flatMap {
                 (key, value) in
                 
-                guard let decoded = [T].from(jsonArray: value) else {
+                guard let decoded = try [T].from(jsonArray: value) else {
                     return nil
                 }
                 

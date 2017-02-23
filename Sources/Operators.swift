@@ -58,8 +58,8 @@ public func <~~ <T>(key: String, json: JSON) -> T? {
  
  - returns: Decoded value when successful, nil otherwise.
  */
-public func <~~ <T: Decodable>(key: String, json: JSON) -> T? {
-    return Decoder.decode(decodableForKey: key)(json)
+public func <~~ <T: Decodable>(key: String, json: JSON) throws -> T? {
+    return try Decoder.decode(decodableForKey: key)(json)
 }
 
 /**
@@ -70,8 +70,8 @@ public func <~~ <T: Decodable>(key: String, json: JSON) -> T? {
  
  - returns: Decoded value when successful, nil otherwise.
  */
-public func <~~ <T: Decodable>(key: String, json: JSON) -> [T]? {
-    return Decoder.decode(decodableArrayForKey: key)(json)
+public func <~~ <T: Decodable>(key: String, json: JSON) throws -> [T]? {
+    return try Decoder.decode(decodableArrayForKey: key)(json)
 }
 
 /**
@@ -82,8 +82,8 @@ public func <~~ <T: Decodable>(key: String, json: JSON) -> [T]? {
  
  - returns: Decoded value when successful, nil otherwise.
  */
-public func <~~ <T: Decodable>(key: String, json: JSON) -> [String : T]? {
-    return Decoder.decode(decodableDictionaryForKey: key)(json)
+public func <~~ <T: Decodable>(key: String, json: JSON) throws -> [String : T]? {
+    return try Decoder.decode(decodableDictionaryForKey: key)(json)
 }
 
 /**
@@ -94,8 +94,8 @@ public func <~~ <T: Decodable>(key: String, json: JSON) -> [String : T]? {
  
  - returns: Decoded value when successful, nil otherwise.
  */
-public func <~~ <T: Decodable>(key: String, json: JSON) -> [String : [T]]? {
-    return Decoder.decode(decodableDictionaryForKey: key)(json)
+public func <~~ <T: Decodable>(key: String, json: JSON) throws -> [String : [T]]? {
+    return try Decoder.decode(decodableDictionaryForKey: key)(json)
 }
 
 /**
